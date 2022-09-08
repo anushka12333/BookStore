@@ -227,6 +227,8 @@ class Book extends Component{
             else{
                 this.setState({"show":false});
             }
+            console.log('hello');
+            
         }, 2000);
         /*axios.put("http://localhost:8082/books",book)
         .then(response => {

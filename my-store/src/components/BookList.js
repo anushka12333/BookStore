@@ -33,7 +33,7 @@ class BookList extends Component{
         currentPage -= 1;
         let sortDir = this.state.sortToggle ? "asc" : "desc";
         axios.get("http://localhost:8082/books?pageNumber="+currentPage+"&pageSize="+this.state.booksPerPage+"&sortBy=price&sortDir="+sortDir)
-         .then((response) => response.data)
+        .then((response) => response.data)
         .then((data) => {           
             this.setState({
                 books:data.content,
@@ -163,22 +163,30 @@ class BookList extends Component{
      }
      cancelSearch = ()=>{
         this.setState({"search":''});
-        this.getAllBooks(this.state.currentPage);;
+        this.getAllBooks(this.state.currentPage);
      }
-     searchData = (currentPage) =>{
+    
+    searchData = (currentPage) => {
         currentPage -= 1;
-      
-        fetch("http://localhost:8082/books/search/"+this.state.search+"?page="+currentPage+"&size="+this.state.booksPerPage)
-        .then(response => response.json())
-        .then((data) => {           
+        axios
+          .get(
+            "http://localhost:8082/books/search/" +
+              this.state.search +
+              "?page=" +
+              currentPage +
+              "&size=" +
+              this.state.booksPerPage
+          )
+          .then((response) => response.data)
+          .then((data) => {
             this.setState({
-                books:data.content,
-                totalPages:data.totalPages,
-                totalElements:data.totalElements,
-                currentPage:data.number + 1
+              books: data.content,
+              totalPages: data.totalPages,
+              totalElements: data.totalElements,
+              currentPage: data.number + 1,
             });
-        });
-     }
+          });
+      };
 render(){
     const {books,currentPage,totalPages,search}=this.state;   
    
